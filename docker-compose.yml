@@ -1,0 +1,41 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      target: production
+    container_name: patrimonio-backend
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=sqlite+aiosqlite:////data/patrimonio.db
+      - ALLOWED_ORIGINS=["http://localhost","http://localhost:80"]
+      - CACHE_DIR=/data/cache
+    volumes:
+      - backend_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - patrimonio
+
+  frontend:
+    build:
+      context: ./frontend
+      target: production
+    container_name: patrimonio-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - patrimonio
+
+volumes:
+  backend_data:
+
+networks:
+  patrimonio:
+    driver: bridge

@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(cd \"C:\\\\Users\\\\pedro\\\\OneDrive\\\\Documents\\\\Projetos\\\\Patrimonio\"; $dirs = @\\(\"backend/app/api/routes\",\"backend/app/core\",\"backend/app/models\",\"backend/app/schemas\",\"backend/app/services/data_fetchers\",\"backend/app/utils\",\"backend/tests/test_api\",\"backend/alembic\",\"backend/scripts\",\"frontend/src/components/ui\",\"frontend/src/components/charts\",\"frontend/src/components/forms\",\"frontend/src/components/layout\",\"frontend/src/components/educational\",\"frontend/src/pages\",\"frontend/src/hooks\",\"frontend/src/lib\",\"frontend/src/store\",\"frontend/src/types\",\"frontend/tests\",\"frontend/public\",\"docs/screenshots\",\".github/workflows\"\\); foreach \\($d in $dirs\\) { New-Item -ItemType Directory -Path $d -Force | Out-Null }; Write-Host \"Done\")"
+    ]
+  }
+}
