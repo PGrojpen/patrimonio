@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+.env
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+*.cover
+
+# Node / Frontend
+node_modules/
+dist/
+.parcel-cache/
+.next/
+.nuxt/
+.cache/
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Data / Cache
+*.db
+*.sqlite
+*.sqlite3
+*.parquet
+cache/
+data/raw/
+*.log
+
+# Docker
+.dockerignore
+
+# Secrets / Config
+.env
+.env.local
+.env.production
+*.pem
+*.key
+
+# Distribution
+*.tar.gz
+*.zip
