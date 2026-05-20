@@ -4,6 +4,7 @@ import { DrawdownChart } from "@/components/charts/DrawdownChart";
 import { MetricCard } from "@/components/ui/MetricCard";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import { AssetSelector } from "@/components/ui/AssetSelector";
 import { ConceptTooltip } from "@/components/educational/ConceptTooltip";
 import { formatBRL, formatBRLCompact, formatNumber } from "@/lib/formatters";
 import type { BacktestRequest } from "@/types/api";
@@ -11,16 +12,6 @@ import {
   CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from "recharts";
 import { BarChart3, RefreshCw } from "lucide-react";
-
-const AVAILABLE_ASSETS = [
-  { ticker: "BOVA11.SA", name: "Ibovespa (BOVA11)" },
-  { ticker: "IVVB11.SA", name: "S&P 500 BRL (IVVB11)" },
-  { ticker: "KNRI11.SA", name: "Kinea FII (KNRI11)" },
-  { ticker: "MXRF11.SA", name: "Maxi Renda FII (MXRF11)" },
-  { ticker: "PETR4.SA", name: "Petrobras (PETR4)" },
-  { ticker: "VALE3.SA", name: "Vale (VALE3)" },
-  { ticker: "ITUB4.SA", name: "Itaú (ITUB4)" },
-];
 
 const LINE_COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"];
 
@@ -75,28 +66,20 @@ export function BacktestPage() {
               Configuração
             </h2>
 
-            <div className="space-y-2">
-              <label className="text-xs font-medium text-muted-foreground">Ativos</label>
-              {AVAILABLE_ASSETS.map(({ ticker, name }) => (
-                <label key={ticker} className="flex items-center gap-2 text-sm cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={selectedTickers.includes(ticker)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedTickers((prev) => [...prev, ticker]);
-                        setWeights((prev) => ({ ...prev, [ticker]: 0 }));
-                      } else {
-                        setSelectedTickers((prev) => prev.filter((t) => t !== ticker));
-                        setWeights((prev) => { const next = { ...prev }; delete next[ticker]; return next; });
-                      }
-                    }}
-                    className="rounded"
-                  />
-                  <span>{name}</span>
-                </label>
-              ))}
-            </div>
+            <AssetSelector
+              selected={selectedTickers}
+              onChange={(tickers) => {
+                const added = tickers.filter((t) => !selectedTickers.includes(t));
+                const removed = selectedTickers.filter((t) => !tickers.includes(t));
+                setSelectedTickers(tickers);
+                setWeights((prev) => {
+                  const next = { ...prev };
+                  for (const t of added) next[t] = 0;
+                  for (const t of removed) delete next[t];
+                  return next;
+                });
+              }}
+            />
 
             {selectedTickers.length > 0 && (
               <div className="space-y-2">
