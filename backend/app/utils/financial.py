@@ -76,3 +76,24 @@ def max_drawdown(values: npt.NDArray[np.float64]) -> float:
     """Compute maximum drawdown (%) from a value series."""
     dd = drawdown_series(values)
     return float(dd.min())
+
+
+def should_rebalance(month: int, freq: str) -> bool:
+    """
+    Retorna True se o mês `month` é um evento de rebalanceamento.
+
+    Frequências suportadas: 'none', 'monthly', 'quarterly', 'annual'.
+
+    Nota: em carteiras com ativos tributáveis, o rebalanceamento real gera
+    fato gerador de IR sobre o ganho realizado. Esta implementação ignora
+    esse custo (simplificação v1 — ver issue TODO).
+    """
+    if freq == "none":
+        return False
+    if freq == "monthly":
+        return True
+    if freq == "quarterly":
+        return month % 3 == 0
+    if freq == "annual":
+        return month % 12 == 0
+    return False

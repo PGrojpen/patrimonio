@@ -70,10 +70,7 @@ class TestSimulator:
         assert result.series[-1].month == 36
 
     def test_high_initial_investment(self):
-        req = make_request(initial_investment=1_000_000, monthly_contribution=0)
-        # This will fail validation because monthly_contribution must be > 0
-        # Use 1 as minimum
-        req2 = SimulationRequest(
+        req = SimulationRequest(
             initial_investment=1_000_000,
             monthly_contribution=1,
             annual_contribution_increase_pct=0,
@@ -81,7 +78,7 @@ class TestSimulator:
             annual_rate_pct=10.0,
             inflation_pct=4.5,
         )
-        result = simulate(req2)
+        result = simulate(req)
         assert result.final_value > 1_000_000
 
     def test_pedro_scenario(self):
