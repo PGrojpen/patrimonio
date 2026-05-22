@@ -2,8 +2,8 @@
 
 > Simulador profissional de investimentos de longo prazo para o mercado brasileiro.
 
-[![Backend CI](https://github.com/yourusername/patrimonio/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/yourusername/patrimonio/actions)
-[![Frontend CI](https://github.com/yourusername/patrimonio/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/yourusername/patrimonio/actions)
+[![Backend CI](https://github.com/PGrojpen/patrimonio/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/PGrojpen/patrimonio/actions)
+[![Frontend CI](https://github.com/PGrojpen/patrimonio/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/PGrojpen/patrimonio/actions)
 [![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688?logo=fastapi)](https://fastapi.tiangolo.com)
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://react.dev)
@@ -44,7 +44,7 @@
 
 ```bash
 # 1. Clone
-git clone https://github.com/yourusername/patrimonio.git
+git clone https://github.com/PGrojpen/patrimonio.git
 cd patrimonio
 
 # 2. Suba os serviços

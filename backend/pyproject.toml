@@ -1,14 +1,17 @@
 [build-system]
 requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.backends.legacy:build"
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]
 
 [project]
 name = "patrimonio-backend"
 version = "1.0.0"
 description = "Brazilian investment portfolio simulator — backend API"
-readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "MIT" }
+license = "MIT"
 authors = [{ name = "Pedro", email = "pedro@patrimonio.dev" }]
 
 dependencies = [

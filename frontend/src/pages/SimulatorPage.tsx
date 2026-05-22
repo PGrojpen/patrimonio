@@ -15,7 +15,7 @@ import type { SimulationRequest, SimulationResult } from "@/types/api";
 
 const schema = z.object({
   initial_investment: z.coerce.number().min(0),
-  monthly_contribution: z.coerce.number().min(1, "Mínimo R$ 1"),
+  monthly_contribution: z.coerce.number().min(0),
   annual_contribution_increase_pct: z.coerce.number().min(0).max(50),
   years: z.coerce.number().int().min(1).max(50),
   annual_rate_pct: z.coerce.number().min(0.1).max(50),
@@ -84,7 +84,7 @@ export function SimulatorPage() {
             </Field>
 
             <Field label="Aporte mensal (R$)" error={errors.monthly_contribution?.message}>
-              <input type="number" min={1} step={50} {...register("monthly_contribution")}
+              <input type="number" min={0} step={1} {...register("monthly_contribution")}
                 className="input-field" />
             </Field>
 

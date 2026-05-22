@@ -5,20 +5,11 @@ import { EfficientFrontierChart } from "@/components/charts/EfficientFrontierCha
 import { MetricCard } from "@/components/ui/MetricCard";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import { AssetSelector } from "@/components/ui/AssetSelector";
 import { ConceptTooltip } from "@/components/educational/ConceptTooltip";
 import { formatNumber } from "@/lib/formatters";
 import type { MarkowitzRequest, MarkowitzResult } from "@/types/api";
 import { ScatterChart, RefreshCw } from "lucide-react";
-
-const AVAILABLE_ASSETS = [
-  { ticker: "BOVA11.SA", name: "Ibovespa" },
-  { ticker: "IVVB11.SA", name: "S&P 500 BRL" },
-  { ticker: "KNRI11.SA", name: "Kinea FII" },
-  { ticker: "MXRF11.SA", name: "Maxi Renda FII" },
-  { ticker: "NASD11.SA", name: "Nasdaq 100" },
-  { ticker: "PETR4.SA", name: "Petrobras" },
-  { ticker: "VALE3.SA", name: "Vale" },
-];
 
 export function MarkowitzPage() {
   const [selectedTickers, setSelectedTickers] = useState<string[]>(["BOVA11.SA", "IVVB11.SA", "KNRI11.SA"]);
@@ -55,24 +46,11 @@ export function MarkowitzPage() {
             Ativos <ConceptTooltip concept="markowitz" />
           </h2>
 
-          <div className="space-y-2">
-            {AVAILABLE_ASSETS.map(({ ticker, name }) => (
-              <label key={ticker} className="flex items-center gap-2 text-sm cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={selectedTickers.includes(ticker)}
-                  onChange={(e) => {
-                    setSelectedTickers((prev) =>
-                      e.target.checked ? [...prev, ticker] : prev.filter((t) => t !== ticker)
-                    );
-                  }}
-                  className="rounded"
-                />
-                <span className="flex-1">{name}</span>
-                <span className="text-xs text-muted-foreground font-mono">{ticker}</span>
-              </label>
-            ))}
-          </div>
+          <AssetSelector
+            selected={selectedTickers}
+            onChange={setSelectedTickers}
+            warnAbove={8}
+          />
 
           <div className="space-y-1">
             <label className="text-xs font-medium text-muted-foreground">Período início</label>

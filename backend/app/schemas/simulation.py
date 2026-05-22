@@ -10,7 +10,7 @@ class ContributionSchedule(BaseModel):
 
 class SimulationRequest(BaseModel):
     initial_investment: float = Field(0.0, ge=0, description="Aporte inicial em R$")
-    monthly_contribution: float = Field(..., gt=0, description="Aporte mensal em R$")
+    monthly_contribution: float = Field(..., ge=0, description="Aporte mensal em R$")
     annual_contribution_increase_pct: float = Field(
         0.0, ge=0, le=100, description="Crescimento anual dos aportes (%)"
     )
