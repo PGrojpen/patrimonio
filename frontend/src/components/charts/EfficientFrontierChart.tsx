@@ -8,7 +8,6 @@ import {
   YAxis,
   ZAxis,
 } from "recharts";
-import type { TooltipProps } from "recharts";
 import type { EfficientFrontierPoint, MarkowitzResult } from "@/types/api";
 import { formatNumber } from "@/lib/formatters";
 
@@ -76,8 +75,7 @@ export function EfficientFrontierChart({ result }: EfficientFrontierChartProps) 
           <ZAxis range={[30, 30]} />
           <Tooltip
             cursor={{ strokeDasharray: "3 3" }}
-            content={(props: TooltipProps<number, string>) => {
-              const { payload } = props;
+            content={({ payload }) => {
               if (!payload?.length) return null;
               const p = payload[0]?.payload as { x: number; y: number; sharpe?: number; label?: string; type: string };
               return (

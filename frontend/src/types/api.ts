@@ -1,5 +1,22 @@
 // Types mirroring the backend Pydantic schemas
 
+// ---------------------------------------------------------------------------
+// Multi-asset simulation (novo — v1.1)
+// ---------------------------------------------------------------------------
+
+export type TaxRegime = "regressive_ir" | "exempt" | "come_cotas" | "stocks";
+export type Indexador = "pre" | "pos_cdi" | "pos_selic" | "ipca_plus" | "hybrid" | "equity";
+export type RebalanceFrequency = "none" | "monthly" | "quarterly" | "annual";
+
+export interface AssetAllocation {
+  name: string;
+  weight: number; // 0.0–1.0, soma deve ser 1.0
+  annual_rate_pct: number;
+  tax_regime: TaxRegime;
+  has_fgc?: boolean;
+  indexador?: Indexador | null;
+}
+
 export interface MonthlyDataPoint {
   month: number;
   date: string;
@@ -7,6 +24,18 @@ export interface MonthlyDataPoint {
   interest_earned: number;
   total_value: number;
   real_value: number;
+  by_asset: Record<string, number>; // nome → valor (precisão total, pré-IR de resgate)
+}
+
+export interface AssetSummary {
+  name: string;
+  final_value: number;
+  final_value_real: number;
+  total_contributed: number;
+  total_interest: number;
+  ir_paid: number;
+  weight_target: number;
+  weight_final: number;
 }
 
 export interface SimulationRequest {
@@ -14,8 +43,10 @@ export interface SimulationRequest {
   monthly_contribution: number;
   annual_contribution_increase_pct: number;
   years: number;
-  annual_rate_pct: number;
   inflation_pct: number;
+  assets: AssetAllocation[];
+  rebalance_frequency?: RebalanceFrequency;
+  apply_costs?: boolean;
 }
 
 export interface SimulationResult {
@@ -26,7 +57,13 @@ export interface SimulationResult {
   annualized_return_pct: number;
   real_annualized_return_pct: number;
   series: MonthlyDataPoint[];
+  by_asset: AssetSummary[];
+  total_ir_paid: number;
 }
+
+// ---------------------------------------------------------------------------
+// Monte Carlo
+// ---------------------------------------------------------------------------
 
 export interface MonteCarloRequest {
   initial_value: number;
@@ -54,6 +91,10 @@ export interface MonteCarloResult {
   annualized_return_pct: number;
   annualized_volatility_pct: number;
 }
+
+// ---------------------------------------------------------------------------
+// Backtest
+// ---------------------------------------------------------------------------
 
 export interface BacktestRequest {
   tickers: string[];
@@ -92,6 +133,10 @@ export interface BacktestResult {
   warning?: string;
 }
 
+// ---------------------------------------------------------------------------
+// Markowitz
+// ---------------------------------------------------------------------------
+
 export interface MarkowitzRequest {
   tickers: string[];
   start_date: string;
@@ -116,6 +161,10 @@ export interface MarkowitzResult {
   correlation_matrix: Record<string, Record<string, number>>;
   asset_stats: Record<string, { annual_return_pct: number; annual_volatility_pct: number; sharpe_ratio: number }>;
 }
+
+// ---------------------------------------------------------------------------
+// Risk / Market
+// ---------------------------------------------------------------------------
 
 export interface RiskMetrics {
   volatility_annual_pct: number;
@@ -149,7 +198,10 @@ export interface TaxComparison {
   tax_drag_pct: number;
 }
 
-// Saved scenario (localStorage)
+// ---------------------------------------------------------------------------
+// Saved scenarios (localStorage)
+// ---------------------------------------------------------------------------
+
 export interface SavedScenario {
   id: string;
   name: string;
