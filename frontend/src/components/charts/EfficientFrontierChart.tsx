@@ -75,10 +75,6 @@ export function EfficientFrontierChart({ result }: EfficientFrontierChartProps) 
           <ZAxis range={[30, 30]} />
           <Tooltip
             cursor={{ strokeDasharray: "3 3" }}
-            formatter={(value: number, name: string) => [
-              `${formatNumber(value, 2)}%`,
-              name === "x" ? "Volatilidade" : "Retorno",
-            ]}
             content={({ payload }) => {
               if (!payload?.length) return null;
               const p = payload[0]?.payload as { x: number; y: number; sharpe?: number; label?: string; type: string };
